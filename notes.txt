@@ -1,0 +1,30 @@
+
+1. Install virtualenv, cd to destination folder in cmd,
+    mac- python3 -m pip install virtualenv
+         exit
+    win- py -m pip install virtualenv
+    -- using python i want to use the modulus, the one that i want to use is the pip, and i want to install virtualenv
+
+2. Use "venv" to create a virtual enviroment
+    mac- python3 -m venv venv
+    win- py -m venv venv
+    -- py -"model" using "venv" "folder name"
+
+3. lauching the virtual enviroment-- virtualenv
+    mac- source venv/bin/activate
+    win- venv\Scripts\activate
+
+4. installing flask, it is a server library to  help us to launch the server
+    mac- python3 -m pip install flask
+    win- py -m pip install flask
+
+5. outside venv folder create a server.py
+    in server.py file enter
+    "from flask import Flask"
+    "app=Flask(__name__)" 
+    //app is the variable
+    //_ _name_ _ name of application is the root folder name
+
+6. final line in server.py
+    "app.run(debug=True)"
+
