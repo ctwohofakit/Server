@@ -25,5 +25,53 @@ def vari():
     message ={"message":"Hello there!"}
     return json.dumps(message)
 
+
+#list pratice
+@app.get("/reverse")
+def revese_list():
+    nums=[10,20,30,40,50]
+    reverse=nums[::-1]
+    return json.dumps({"reverse_number":reverse})
+
+
+#for pratice
+@app.get("/even")
+def find_even():
+    nums=[1,2,3,4,5,6]
+    even=[]
+    for num in nums:
+        if num % 2 ==0:
+            even.append(num)
+    return json.dumps({"even_numbers":even})
+
+
+#dictionary pratice
+#transform the list of dictionaries into a single dictionary that groups students by their city
+@app.get("/count")
+def total_students():
+    students=[
+        {"name":"Amy","age":21,"city":"San Diego"},
+        {"name":"Paul","age":24,"city":"Taxes"},
+        {"name":"Brian","age":32,"city":"San Diego"}     
+    ]
+    total={}
+    for student in students:
+        name = student["name"]#Access from student dictionary
+        city = student["city"]
+        if city in total:
+            total[city].append(name)
+        else:
+            total[city]=[name]
+    return json.dumps(total)
+
+
+
+
+
+
+
+
+
+
 app.run(debug=True)#specify that when I save the code. the changes are applied in the the server 
 #API

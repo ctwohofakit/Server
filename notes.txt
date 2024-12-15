@@ -28,3 +28,8 @@
 6. final line in server.py
     "app.run(debug=True)"
 
+7. each http request in server.py start with @app.get("/nameOfRequest")
+    @app.get("/vari")
+    def vari():
+        message ={"message":"Hello there!"}
+        return json.dumps(message)
