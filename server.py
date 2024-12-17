@@ -1,13 +1,13 @@
-from flask import Flask
+from flask import Flask, request
 import json
 
 app=Flask(__name__)#set varible and rootfoler name
 
-@app.get("/")#when people in the root folder, excute below function to render-http request, get-read the homePage, return function home()
+@app.get("/")#when people in the "root" folder, excute below function to render-http request, get-read the homePage, return function home()
 def home():
     return"hellow form flask"
 
-@app.get("/test")
+@app.get("/test") #endpoint
 def test():
     return"This is a test page"
 
@@ -24,6 +24,60 @@ def about():
 def vari():
     message ={"message":"Hello there!"}
     return json.dumps(message)
+
+
+
+products=[] #http post method --create
+@app.get("/api/products")
+def get_products():
+    return json.dumps(products)
+
+
+#post ->client
+@app.post("/api/products") #http post method --READ, CRUD
+def save_product():
+    product=request.get_json() #need to add to import
+    print(f"this is my new product {product}")
+    products.append(product)
+    return json.dumps(product)
+
+
+#put-replace entirely
+@app.put("/api/products/<int:index>")
+def update_product(index):
+    updated_product = request.get_json()
+    print(f"Product: {updated_product}: {index}")
+
+    if 0 <= index <= len(products):
+        products [index] = updated_product
+        return json.dumps(updated_product)
+    else:
+        return "That index does not exist"
+
+
+
+#delete <int:index> <> becasuse its dynamic,
+#parameter in function sholuld be same as the delete name
+#http post method --delete, CRUD
+@app.delete("/api/products/<int:index>")
+def delete_product(index):
+    print(f"delete: {index}")
+
+    if index >= 0 and index < len(products):
+        deleted_product = products.pop(index)
+        return json.dumps(deleted_product)
+    else:
+        return "That index does not exist"
+    
+
+
+@app.get("/api/product/count")
+def product_count():
+    product_qty=len(products)
+    return json.dumps(product_qty)        
+
+
+
 
 
 #list pratice
