@@ -3,6 +3,6 @@ import pymongo
 import certifi
 
 #this is the connection string that I for from the mongodb connection
-con_string="mongodb+srv://test:test@cluster0.ebdyu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+con_string="mongodb+srv://:@cluster0.ebdyu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client =pymongo.MongoClient(con_string,tlsCAFile = certifi.where())
 db =client. get_database("Tacos") #create dabase name
