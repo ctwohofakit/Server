@@ -1,5 +1,6 @@
 from flask import Flask, request
 import json
+from config import db #import db library
 
 app=Flask(__name__)#set varible and rootfoler name
 
@@ -27,10 +28,20 @@ def vari():
 
 
 
-products=[] #http post method --create
+#http post method --create
 @app.get("/api/products")
 def get_products():
+    products=[]
+    cursor=db.products.find({}) #database input
+    for prod in cursor:
+        products.append(fix_id(prod))
     return json.dumps(products)
+
+
+def fix_id(obj):
+    obj["_id"]=str(obj["_id"]) #id name has to be the same as the mongo's id name
+    return obj
+
 
 
 #post ->client
@@ -38,8 +49,10 @@ def get_products():
 def save_product():
     product=request.get_json() #need to add to import
     print(f"this is my new product {product}")
-    products.append(product)
-    return json.dumps(product)
+    db.products.insert_one(product) #database input
+    #products.append(product)
+    return json.dumps(fix_id(product)) #update fix id
+
 
 
 #put-replace entirely
@@ -75,6 +88,8 @@ def delete_product(index):
 def product_count():
     product_qty=len(products)
     return json.dumps(product_qty)        
+
+
 
 
 
