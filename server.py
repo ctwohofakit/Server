@@ -28,30 +28,28 @@ def vari():
 
 
 
-#http post method --create
+#http get product method --retrieve
 @app.get("/api/products")
 def get_products():
     products=[]
-    cursor=db.products.find({}) #database input
+    cursor=db.products.find({}) #database input {} is the filter
     for prod in cursor:
         products.append(fix_id(prod))
     return json.dumps(products)
 
-
+#fixed mongoDB _id object issue
 def fix_id(obj):
     obj["_id"]=str(obj["_id"]) #id name has to be the same as the mongo's id name
     return obj
 
-
-
-#post ->client
+#http post product method --add
 @app.post("/api/products") #http post method --READ, CRUD
 def save_product():
     product=request.get_json() #need to add to import
     print(f"this is my new product {product}")
     db.products.insert_one(product) #database input
     #products.append(product)
-    return json.dumps(fix_id(product)) #update fix id
+    return json.dumps(fix_id(product)) #update fix _id from mongo
 
 
 
@@ -75,14 +73,12 @@ def update_product(index):
 @app.delete("/api/products/<int:index>")
 def delete_product(index):
     print(f"delete: {index}")
-
     if index >= 0 and index < len(products):
         deleted_product = products.pop(index)
         return json.dumps(deleted_product)
     else:
         return "That index does not exist"
     
-
 
 @app.get("/api/product/count")
 def product_count():
@@ -91,7 +87,26 @@ def product_count():
 
 
 
+############
+#Coupons
+@app.post("/api/coupons") #http post method --READ, CRUD
+def save_coupons():
+    coupon=request.get_json() #need to add to import
+    print(f"this is my new product {coupon}")
+    db.coupons.insert_one(coupon) #database input
+    return json.dumps(fix_id(coupon)) #update fix _id from mongo
 
+@app.get("/api/coupons")
+def get_coupons():
+    coupons=[]
+    cursor=db.coupons.find({}) #database input {} is the filter
+    for cp in cursor:
+        coupons.append(fix_id(cp))
+    return json.dumps(coupons)
+
+
+
+############
 
 
 
@@ -144,3 +159,11 @@ def total_students():
 
 app.run(debug=True)#specify that when I save the code. the changes are applied in the the server 
 #API
+
+
+"""
+read products
+save product
+save coupon
+read coupons
+"""

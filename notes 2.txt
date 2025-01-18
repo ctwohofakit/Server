@@ -2,7 +2,7 @@
     it can be change the different port at the app.run(dehug true, port=8000)
     can not open the same port twice
 
-2. post method->post, body, json
+2. post method->post, body, "****json***"
     200 ok
     
 

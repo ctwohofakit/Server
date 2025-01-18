@@ -14,6 +14,10 @@
     mac- source venv/bin/activate
     win- venv\Scripts\activate
 
+        >>3a. Start the Flask server //if installation of flask already exist
+            MAC - python3 server.py
+            WIN - py server.py
+
 4. installing flask, it is a server library to  help us to launch the server
     mac- python3 -m pip install flask
     win- py -m pip install flask
