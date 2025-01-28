@@ -1,8 +1,11 @@
 from flask import Flask, request
 import json
 from config import db #import db library
+from flask_cors import CORS
+
 
 app=Flask(__name__)#set varible and rootfoler name
+CORS(app)
 
 @app.get("/")#when people in the "root" folder, excute below function to render-http request, get-read the homePage, return function home()
 def home():
@@ -37,6 +40,19 @@ def get_products():
         products.append(fix_id(prod))
     return json.dumps(products)
 
+#get catagory 
+@app.get("/api/categories")
+def get_categories():
+    results=[]
+    cursor=db.products.find({})
+    for prod in cursor:
+        category =prod.get("category","")
+        if category not in results:
+            results.append(category)
+    return json.dumps(results)
+
+
+
 #fixed mongoDB _id object issue
 def fix_id(obj):
     obj["_id"]=str(obj["_id"]) #id name has to be the same as the mongo's id name
@@ -50,6 +66,7 @@ def save_product():
     db.products.insert_one(product) #database input
     #products.append(product)
     return json.dumps(fix_id(product)) #update fix _id from mongo
+
 
 
 
